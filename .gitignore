@@ -1,0 +1,25 @@
+# Dependencias (se recrean con: cd desktop && npm install)
+node_modules/
+
+# Instaladores generados (se comparten por GitHub Releases, no en el repo)
+desktop/dist/
+*.exe
+*.dmg
+*.AppImage
+*.apk
+*.aab
+*.blockmap
+
+# Registros y temporales
+*.log
+npm-debug.log*
+
+# Configuración local del editor / herramientas
+.claude/
+.vscode/
+.idea/
+
+# Sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store

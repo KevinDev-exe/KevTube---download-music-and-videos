@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' https://*.ytimg.com https://*.ggpht.com https://*.googleusercontent.com data:; style-src 'self'; script-src 'self'" />
+  <title>KevTube</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M5 19h14" /></svg>
+      </div>
+      <div>
+        <h1>KevTube</h1>
+        <p class="sub">Música y video de YouTube</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="switch" title="Agregar automáticamente los enlaces de YouTube que copies">
+        <input type="checkbox" id="watch" />
+        <span class="track"><span class="thumb"></span></span>
+        <span class="switch-label">Detectar enlaces copiados</span>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <form class="paste" id="pasteForm">
+      <input id="pasteInput" type="text" placeholder="Pega aquí un enlace de YouTube… o simplemente cópialo y se agrega solo" autocomplete="off" />
+      <button type="submit" class="primary-outline">Agregar</button>
+    </form>
+
+    <section class="summary" id="summary" hidden>
+      <div class="summary-row">
+        <div class="counter">
+          <span class="count" id="count">0/0</span>
+          <span class="count-label">descargadas</span>
+        </div>
+        <div class="summary-actions">
+          <button class="ghost small" id="clearDone" hidden>Limpiar completadas</button>
+          <button class="ghost small" id="openFolder" hidden>
+            <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>
+            Abrir carpeta
+          </button>
+          <button class="primary" id="downloadAll">
+            <svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" /></svg>
+            <span>Descargar</span>
+          </button>
+        </div>
+      </div>
+      <div class="bar"><div class="bar-fill" id="totalBar"></div></div>
+      <p class="engine" id="engine" hidden></p>
+    </section>
+
+    <ul class="list" id="list"></ul>
+
+    <div class="empty" id="empty">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg>
+      </div>
+      <h2>Tu lista está vacía</h2>
+      <p>En YouTube toca <b>Compartir</b> → <b>Copiar enlace</b>.<br />KevTube lo detecta y lo agrega aquí al instante.</p>
+      <div class="steps">
+        <span class="chip"><b>MP3</b> por defecto</span>
+        <span class="chip">Toca el formato para cambiar a <b>MP4</b></span>
+      </div>
+    </div>
+  </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <template id="itemTpl">
+    <li class="item">
+      <div class="thumb-wrap">
+        <img class="thumb-img" alt="" />
+        <span class="duration"></span>
+      </div>
+      <div class="info">
+        <p class="title"></p>
+        <p class="meta"></p>
+        <div class="item-bar"><div class="item-bar-fill"></div></div>
+      </div>
+      <div class="actions">
+        <button class="fmt" title="Cambiar formato"></button>
+        <button class="icon remove" title="Quitar de la lista">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
+        </button>
+        <span class="done-check" title="Descargado — clic para ver el archivo">
+          <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+        </span>
+        <span class="spinner"></span>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
