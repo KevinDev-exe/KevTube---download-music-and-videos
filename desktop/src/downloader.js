@@ -173,6 +173,7 @@ class Downloader {
       '3',
       '--no-playlist',
       '--newline',
+      '--progress', // --print activa el modo silencioso; esto mantiene el progreso
       '--no-warnings',
       '--ffmpeg-location',
       this.ffmpegPath,

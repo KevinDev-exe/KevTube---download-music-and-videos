@@ -9,6 +9,15 @@ desktop/dist/
 *.apk
 *.aab
 *.blockmap
+# ...excepto el instalador del teléfono, que sí se sube
+!install_movile/KevTube.apk
+
+# Android (se generan al compilar)
+mobile/.gradle/
+mobile/build/
+mobile/app/build/
+mobile/local.properties
+mobile/.kotlin/
 
 # Registros y temporales
 *.log

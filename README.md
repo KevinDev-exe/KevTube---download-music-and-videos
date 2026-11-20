@@ -36,14 +36,32 @@ Download-mp3-mp4/
 │       ├── preload.js      ← puente seguro entre la interfaz y main.js (window.api)
 │       ├── downloader.js   ← motor de descargas: usa yt-dlp + ffmpeg, progreso,
 │       │                     reintentos automáticos y carpetas MP3/MP4
-│       └── renderer/       ← la interfaz que ve el usuario
+│       └── renderer/       ← la interfaz que ve el usuario (la usan escritorio Y celular)
 │           ├── index.html  ← estructura de la pantalla
 │           ├── styles.css  ← diseño (colores, animaciones, versión para pantallas pequeñas)
-│           └── app.js      ← lógica de la lista: agregar, quitar, cambiar formato,
-│                             descargar, alertas y contador
+│           ├── app.js      ← lógica de la lista: agregar, quitar, cambiar formato,
+│           │                 descargar, alertas y contador
+│           └── platform.js ← vacío en escritorio; en Android se reemplaza por mobile/web/platform.js
 │
-└── install_movile/         ← aquí va el instalador para teléfono (APK de Android)
+├── mobile/                 ← App Android (Kotlin)
+│   ├── build.gradle.kts    ← versiones del plugin de Android y Kotlin
+│   ├── settings.gradle.kts ← nombre del proyecto y repositorios
+│   ├── gradlew / gradlew.bat ← Gradle (compila la app sin instalar nada extra)
+│   ├── web/
+│   │   └── platform.js     ← conecta la interfaz con Android (window.api)
+│   └── app/
+│       ├── build.gradle.kts ← versión de la app, dependencias, firma del APK
+│       └── src/main/
+│           ├── AndroidManifest.xml ← permisos y opción "Compartir → KevTube"
+│           ├── java/com/kevtube/app/MainActivity.kt ← todo lo nativo: motor yt-dlp,
+│           │       compartir, portapapeles, descargas y guardado en Descargas/KevTube
+│           └── res/        ← ícono y colores de la app
+│
+└── install_movile/
+    └── KevTube.apk         ← instalador para teléfonos Android
 ```
+
+> **Una sola interfaz para todo:** la pantalla del celular es la misma de escritorio (`desktop/src/renderer`). Al compilar Android se copia sola, así que si cambias el diseño, cambia en ambos.
 
 ### ¿Cómo funciona por dentro?
 
@@ -117,15 +135,47 @@ El instalador no tiene firma digital, así que Windows puede mostrar *"Windows p
 
 Para cambiar la versión, edita `"version"` en `desktop/package.json` antes de generar el instalador.
 
-> Los instaladores (`dist/`) **no** se suben al repositorio porque pesan ~100 MB. Para compartirlos usa **GitHub Releases** (en tu repositorio: *Releases → Draft a new release* y adjuntas el `.exe`).
+> El instalador de escritorio (`dist/`) **no** se sube al repositorio porque pesa ~100 MB. Para compartirlos usa **GitHub Releases** (en tu repositorio: *Releases → Draft a new release* y adjuntas el `.exe`).
 
 ---
 
-## 📱 App para teléfono
+## 📱 App Android
 
-La carpeta [`install_movile/`](install_movile/) es donde va el instalador para Android (`.apk`).
+El instalador listo está en [`install_movile/KevTube.apk`](install_movile/). Las instrucciones para instalarlo en el teléfono están en [install_movile/README.md](install_movile/README.md).
 
-> Estado: **pendiente**. La app móvil aún no está construida. En Android la idea es que KevTube aparezca en el menú **Compartir** de YouTube (Compartir → KevTube), porque Android no deja que una app lea el portapapeles en segundo plano.
+En el teléfono se agrega un video de dos formas:
+- **Compartir → KevTube** desde YouTube.
+- **Copiar enlace** y abrir KevTube (lo detecta al abrir; Android no deja leer el portapapeles en segundo plano).
+
+### Requisitos para compilar
+
+- **Android Studio** instalado (trae el SDK de Android y Java).
+- O, sin Android Studio: Java 17+ y el Android SDK, con `sdk.dir` en `mobile/local.properties`.
+
+### Generar el APK
+
+```powershell
+cd mobile
+$env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
+.\gradlew.bat assembleRelease
+```
+
+El APK queda en `mobile/app/build/outputs/apk/release/app-release.apk`. Cópialo a `install_movile/KevTube.apk`.
+
+| Opción | Comando |
+|---|---|
+| APK para probar en el emulador de Android Studio (x86_64) | `.\gradlew.bat assembleDebug -Pabis=x86_64` |
+| Instalarlo en un teléfono conectado por USB | `.\gradlew.bat installDebug` |
+
+Para cambiar la versión de la app, edita `versionCode` y `versionName` en `mobile/app/build.gradle.kts`.
+
+> El APK se firma con la llave de depuración. Sirve para instalarlo directo en cualquier teléfono, pero para publicarlo en la Play Store hay que crear una llave propia.
+
+| Pieza (Android) | Para qué sirve |
+|---|---|
+| **youtubedl-android** | Trae yt-dlp, Python y ffmpeg dentro de la app. KevTube actualiza yt-dlp cada vez que se abre. |
+| **WebView** | Muestra la misma interfaz HTML de escritorio. |
+| **MediaStore** | Guarda los archivos en `Descargas/KevTube/MP3` y `MP4`. |
 
 ---
 

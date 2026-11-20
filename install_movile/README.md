@@ -1,21 +1,22 @@
-# 📱 Instalador para teléfono
+# 📱 Instalador para teléfono (Android)
 
-Aquí se guarda el instalador de KevTube para Android (`KevTube.apk`).
+Aquí está **`KevTube.apk`**, el instalador de KevTube para Android 7.0 o superior.
 
-**Estado:** pendiente. La app móvil todavía no está construida.
+## Cómo instalarlo
 
-## Idea de funcionamiento
+1. Pasa `KevTube.apk` al teléfono (cable, Drive, WhatsApp, etc.).
+2. Ábrelo. Si Android lo pide, permite **"Instalar apps de origen desconocido"**.
+3. Toca **Instalar**. Si sale un aviso de Play Protect, toca **Instalar de todas formas**: es normal en apps que no vienen de la Play Store.
 
-1. En YouTube tocas **Compartir**.
-2. Eliges **KevTube** en la lista de apps.
-3. El video se agrega a la lista de descargas, con un aviso pequeño.
+## Cómo se usa
 
-Se usa el menú **Compartir** en lugar de "Copiar enlace" porque Android no permite que una app lea el portapapeles mientras está en segundo plano.
+- En YouTube toca **Compartir → KevTube** y el video se agrega a la lista.
+- O toca **Copiar enlace** y abre KevTube: lo detecta solo.
+- Toca **MP3** para cambiarlo a **MP4** y luego **Descargar**.
+- Los archivos quedan en **Descargas/KevTube/MP3** y **Descargas/KevTube/MP4**.
 
-## Instalar el APK en el teléfono (cuando exista)
+> La primera vez que se abre, KevTube prepara y actualiza su motor de descargas. Necesita internet y tarda unos segundos.
 
-1. Pasa `KevTube.apk` al teléfono.
-2. Ábrelo y permite **"Instalar apps de origen desconocido"** cuando lo pida.
-3. Toca **Instalar**.
+## Cómo volver a generarlo
 
-> El `.apk` pesa bastante, así que es mejor compartirlo con **GitHub Releases** que subirlo al repositorio.
+Ver la sección **App Android** del [README principal](../README.md).
